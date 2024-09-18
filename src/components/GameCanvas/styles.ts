@@ -8,4 +8,5 @@ export const GamePageContainer = styled.div`
   height: 100%;
   width: 100%;
   cursor: none;
+  background-color: lightgrey;
 `;

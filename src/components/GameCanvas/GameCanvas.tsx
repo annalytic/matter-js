@@ -1,11 +1,11 @@
 import Matter, { Composite, Engine, Render, World } from "matter-js";
 import { useEffect, useRef } from "react";
 import { GamePageContainer } from "./styles";
-import { useGameLogic } from "./useGameLogic";
 import { useAppSize } from "../../hooks/useAppSize";
 import { GROUND_HEIGHT } from "./constants";
 import { createGround } from "./bodies";
 import { createRender } from "./utils";
+import { useSodaBoxAnimation } from "./useSodaBoxAnimation";
 
 export const GameCanvas = () => {
   const { Runner } = Matter;
@@ -15,9 +15,9 @@ export const GameCanvas = () => {
   const currentEngine = engine.current;
   const world = currentEngine.world;
   const renderRef = useRef<Render | null>(null);
-  const blockFalling = useRef(false);
   const { appWidth: canvasWidth, appHeight: canvasHeight } = useAppSize();
   const scrollPosition = useRef(canvasHeight);
+  useSodaBoxAnimation(scrollPosition, world, currentEngine);
 
   useEffect(() => {
     // Create a renderer
@@ -49,8 +49,6 @@ export const GameCanvas = () => {
       render.canvas.remove();
     };
   }, [canvasHeight, canvasWidth, currentEngine]);
-
-  useGameLogic(currentEngine, world, scrollPosition, blockFalling);
 
   return (
     <GamePageContainer>
